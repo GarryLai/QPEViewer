@@ -320,7 +320,6 @@ function plot_current_loc() {
 			.style("fill", "red")
 			.style('pointer-events', 'none')
 			.raise()
-			.raise()
 			.raise();
 	})
 }
