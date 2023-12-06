@@ -141,7 +141,7 @@ function data_proc(data, nan_value, type, fix=0, a=null, b=null) {
 		data = parseFloat(value);
 		if (data > nan_value) {
 			if (a != null && b != null) {
-				data = Math.log10(a) + b*Math.log10(data);
+				data = (10**(data/10)/a)**(1/b);
 				data = data.toFixed(1);
 				unit = 'mm/hr';
 			}
