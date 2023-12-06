@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>QPE整合實驗</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+		<script src="d3.windArrow.js"></script>
+		<script src="cmap.js" defer></script>
+		<script src="index.js" defer></script>
+	</head>
+	<style>
+		body {
+			background: lightblue;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		select {
+			font-size:24px;
+			top: 5px;
+			left: 5px;
+			z-index: 99999;
+			position: relative;
+		}
+		
+		.info {
+			font-size:20px;
+			top: 10px;
+			left: 5px;
+			z-index: 99999;
+			position: relative;
+			pointer-events: none;
+		}
+		
+		.footer {
+			position: fixed;
+			left: 5px;
+			bottom: 10px;
+			pointer-events: none;
+		}
+		
+		svg {
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+
+		.county {
+			fill: rgba(0,0,0,0);
+			stroke: black;
+			stroke-width: 1px;	
+		}
+		
+		.town {
+			fill: rgba(0,0,0,0);
+			stroke: gray;
+			stroke-width: 1px;		
+		}
+
+		.custom_tooltip {
+			position: absolute;
+			text-align: left;
+			width: max-content;
+			padding: 5px;
+			font: 10px;
+			background: #f0eeeb;
+			color: dimgray;
+			border: 1px solid dimgray;
+			border-radius: 3px;
+			pointer-events: none;
+			overflow: hidden;
+		}
+	</style>
+	<body>
+		<select id="product" onchange="plot_data()">
+			<option>QPE a=32.9 b=1.4</option>
+			<option>觀測雨量</option>
+			<option>QPESUMS雨量</option>
+			<option>雷達整合回波</option>
+		</select>
+		<div id="info" class="info"></div>
+		<svg width="100vw" height="100vh"></svg>
+		<div class="footer" style="pointer-events: auto;">
+		資料來源：<a target="_href" href="https://opendata.cwa.gov.tw">氣象資料開放平臺</a><br>
+		Copyright © 2023 <a target="_href" href="https://github.com/GarryLai">江欣恩、周絜竩、洪舒筠、胡芯瑜、賴霆翊</a> V1.0.0(20231206)
+		</div>
+	</body>
+</html>
