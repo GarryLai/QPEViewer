@@ -149,6 +149,9 @@ function data_proc(data, nan_value, type, fix=0, a=null, b=null) {
 			data_out.push({
 				'x': x_y[0],
 				'y': x_y[1],
+				'lat': lat,
+				'lon': lon,
+				'unit': unit,
 				'data': data,
 				'size': size,
 				'tooltip': lon.toFixed(2) + ', ' + lat.toFixed(2) + '<br>' + data + ' ' + unit,
@@ -307,20 +310,46 @@ function plot_sta_data(data) {
 	console.log(new Date().toLocaleString(), 'plot_sta_data end');
 }
 
-function plot_current_loc() {
+function plot_current_loc(data=null, min_dst=0.05) {
 	navigator.geolocation.getCurrentPosition(function(d) {
+		coodr = projection([d.coords.longitude, d.coords.latitude]);
+		//w = g.node().getBoundingClientRect().width;
+		//h = g.node().getBoundingClientRect().height;
+		
+		//g.attr("transform", "translate(" + (coodr[0] - w/2) + ", " + (coodr[1] - h/2) + ")" + " scale(1)");
+		
 		g.append("circle")
 			.attr("cx", function(a) {
-					return projection([d.coords.longitude, d.coords.latitude])[0];
+				return coodr[0];
 			})
 			.attr("cy", function(a) {
-					return projection([d.coords.longitude, d.coords.latitude])[1];
+				return coodr[1];
 			})
 			.attr("r", 2)
 			.style("fill", "red")
 			.style('pointer-events', 'none')
 			.raise()
 			.raise();
+			
+		data_now = null;
+		dst_now = 1E10;
+		if (data) {
+			data.forEach(ele => {
+				dst = (ele['lon'] - d.coords.longitude)**2 + (ele['lat'] - d.coords.latitude)**2
+				if (dst < dst_now && dst <= min_dst) {
+					data_now = ele;
+					dst_now = dst;
+				} 
+			});
+		}
+		
+		font_cmap_1h = (x) => isNaN(x)?"black":x>=100.?"red":x>=80.?"orange":x>=40.?"gold":x>1.?"dimgray":"";
+
+		if (data_now) {
+			d3.select('#now').html('所在地：<font color=' + font_cmap_1h(data_now['data']) + '><b>' + data_now['data'] + ' ' + data_now['unit'] + '</b></font>');	
+		} else {
+			d3.select('#now').html('所在地：<b>沒下雨</b>');	
+		}
 	})
 }
 
@@ -349,6 +378,7 @@ async function plot_data() {
 		clear();
 		plot_grid_data(data);
 		plot_sta_data(auto_sta_data);
+		plot_current_loc(data);
 	} else if (option == '觀測雨量') {
 		[rawdata, autoraindata] = await Promise.all([d3.json(rain_url), d3.json(auto_rain_data_url)]);
 		data = data_proc(rawdata, 0, 1, -1);
@@ -358,6 +388,7 @@ async function plot_data() {
 		clear();
 		plot_grid_data(data);
 		plot_sta_data(auto_sta_data);
+		plot_current_loc(data);
 	} else if (option == 'QPESUMS雨量') {
 		[rawdata, autoraindata] = await Promise.all([d3.json(qpesums_rain_url), d3.json(auto_rain_data_url)]);
 		data = data_proc(rawdata, 0, 0);
@@ -367,6 +398,7 @@ async function plot_data() {
 		clear();
 		plot_grid_data(data);
 		plot_sta_data(auto_sta_data);
+		plot_current_loc(data);
 	} else if (option == '雷達整合回波') {
 		[rawdata] = await Promise.all([d3.json(qpesums_radar_url)]);
 		data = data_proc(rawdata, -99, 0, 0);
@@ -375,6 +407,7 @@ async function plot_data() {
 		cb = radarcb;
 		clear();
 		plot_grid_data(data);
+		plot_current_loc(data);
 	}
 		
 	d3.selectAll("select").attr('disabled', null);
@@ -417,6 +450,5 @@ document.addEventListener('contextmenu', function(e) {
 
 draw_map();
 plot_data();
-plot_current_loc()
 
 window.setInterval(plot_data, 300*1000);
