@@ -310,7 +310,9 @@ function plot_sta_data(data) {
 	console.log(new Date().toLocaleString(), 'plot_sta_data end');
 }
 
-function plot_current_loc(data=null, min_dst=0.05) {
+function plot_current_loc(data=null, min_dst=0.02) {
+	min_dst = min_dst**2
+	
 	navigator.geolocation.getCurrentPosition(function(d) {
 		coodr = projection([d.coords.longitude, d.coords.latitude]);
 		//w = g.node().getBoundingClientRect().width;
