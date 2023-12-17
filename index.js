@@ -371,9 +371,49 @@ async function plot_data() {
 	
 	option = d3.select('#product').property("value");
 	
-	if (option == 'QPE a=32.9 b=1.4') {
+	if (option == '冬季QPE') {
 		[rawdata, autoraindata] = await Promise.all([d3.json(qpesums_radar_url), d3.json(auto_rain_data_url)]);
-		data = data_proc(rawdata, 0, 0, 0, 32.9, 1.4);
+		data = data_proc(rawdata, 0, 0, 0, 136.1, 1.6);
+		sta_data = null;
+		auto_sta_data = rain_data_proc(autoraindata, -99, 1);
+		cb = raincb;
+		clear();
+		plot_grid_data(data);
+		plot_sta_data(auto_sta_data);
+		plot_current_loc(data);
+	} else if (option == '春季QPE') {
+		[rawdata, autoraindata] = await Promise.all([d3.json(qpesums_radar_url), d3.json(auto_rain_data_url)]);
+		data = data_proc(rawdata, 0, 0, 0, 164.4, 1.6);
+		sta_data = null;
+		auto_sta_data = rain_data_proc(autoraindata, -99, 1);
+		cb = raincb;
+		clear();
+		plot_grid_data(data);
+		plot_sta_data(auto_sta_data);
+		plot_current_loc(data);
+	} else if (option == '梅雨QPE') {
+		[rawdata, autoraindata] = await Promise.all([d3.json(qpesums_radar_url), d3.json(auto_rain_data_url)]);
+		data = data_proc(rawdata, 0, 0, 0, 180.3, 1.5);
+		sta_data = null;
+		auto_sta_data = rain_data_proc(autoraindata, -99, 1);
+		cb = raincb;
+		clear();
+		plot_grid_data(data);
+		plot_sta_data(auto_sta_data);
+		plot_current_loc(data);
+	} else if (option == '夏季QPE') {
+		[rawdata, autoraindata] = await Promise.all([d3.json(qpesums_radar_url), d3.json(auto_rain_data_url)]);
+		data = data_proc(rawdata, 0, 0, 0, 234.4, 1.4);
+		sta_data = null;
+		auto_sta_data = rain_data_proc(autoraindata, -99, 1);
+		cb = raincb;
+		clear();
+		plot_grid_data(data);
+		plot_sta_data(auto_sta_data);
+		plot_current_loc(data);
+	} else if (option == '颱風QPE') {
+		[rawdata, autoraindata] = await Promise.all([d3.json(qpesums_radar_url), d3.json(auto_rain_data_url)]);
+		data = data_proc(rawdata, 0, 0, 0, 208.9, 1.4);
 		sta_data = null;
 		auto_sta_data = rain_data_proc(autoraindata, -99, 1);
 		cb = raincb;
