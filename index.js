@@ -14,6 +14,18 @@ const auto_sta_data_url = 'https://cwaopendata.s3.ap-northeast-1.amazonaws.com/O
 const auto_rain_data_url = 'https://cwaopendata.s3.ap-northeast-1.amazonaws.com/Observation/O-A0002-001.json';
 const sta_data_url = 'https://cwaopendata.s3.ap-northeast-1.amazonaws.com/Observation/O-A0003-001.json';
 
+const help = `
+# # # # 使用說明 # # # #
+雷達定量降水估計技術為利用雷達觀測得到的「回波」估算出各地的「時雨量」。
+
+1. 左上角可選擇不同季節統計得到的Z-R關係式
+2. 圖中數值為雨量站實際觀測時雨量
+3. 將游標置於格點上，可查看該格點確切數值
+4. 對測站數值按右鍵可查看測站詳細資料
+5. 對行政區按中鍵可查看縣市與鄉鎮名稱
+6. 紅點為您所在的位置
+`
+
 svg.call(d3.zoom().on("zoom",() => {
 	g.attr("transform", d3.event.transform);
 }));
@@ -494,3 +506,8 @@ draw_map();
 plot_data();
 
 window.setInterval(plot_data, 300*1000);
+
+if (!localStorage.getItem('help')) {
+	alert(help);
+	localStorage.setItem('help', '1');
+}
