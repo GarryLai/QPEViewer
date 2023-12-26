@@ -366,10 +366,10 @@ function plot_current_loc(data=null, min_dst=0.02) {
 
 		if (data_now) {
 			d3.select('#now').html('所在地：<font color=' + font_cmap_1h(data_now['data']) + '><b>' + data_now['data'] + ' ' + data_now['unit'] + '</b></font>');	
-			d3.select('#icon').attr('src', cwa_icon + day_night + '/' + icon_now(data_now['data']) + '.svg')		
+			d3.select('#icon').attr('src', cwa_icon + day_night + '/' + icon_now(data_now['data']) + '.svg')
 		} else {
 			d3.select('#now').html('所在地：<b>沒下雨</b>');
-			d3.select('#icon').attr('src', cwa_icon + day_night + '/' + icon_now(0) + '.svg')		
+			d3.select('#icon').attr('src', cwa_icon + day_night + '/' + icon_now(0) + '.svg')
 		}	
 	})
 }
@@ -400,6 +400,7 @@ async function plot_data() {
 		plot_grid_data(data);
 		plot_sta_data(auto_sta_data);
 		plot_current_loc(data);
+		d3.select('#cbar').attr('src', 'raincb.png')
 	} else if (option == '春季QPE') {
 		[rawdata, autoraindata] = await Promise.all([d3.json(qpesums_radar_url), d3.json(auto_rain_data_url)]);
 		data = data_proc(rawdata, 0, 0, 0, 164.4, 1.6);
@@ -410,6 +411,7 @@ async function plot_data() {
 		plot_grid_data(data);
 		plot_sta_data(auto_sta_data);
 		plot_current_loc(data);
+		d3.select('#cbar').attr('src', 'raincb.png')
 	} else if (option == '梅雨QPE') {
 		[rawdata, autoraindata] = await Promise.all([d3.json(qpesums_radar_url), d3.json(auto_rain_data_url)]);
 		data = data_proc(rawdata, 0, 0, 0, 180.3, 1.5);
@@ -420,6 +422,7 @@ async function plot_data() {
 		plot_grid_data(data);
 		plot_sta_data(auto_sta_data);
 		plot_current_loc(data);
+		d3.select('#cbar').attr('src', 'raincb.png')
 	} else if (option == '夏季QPE') {
 		[rawdata, autoraindata] = await Promise.all([d3.json(qpesums_radar_url), d3.json(auto_rain_data_url)]);
 		data = data_proc(rawdata, 0, 0, 0, 234.4, 1.4);
@@ -430,6 +433,7 @@ async function plot_data() {
 		plot_grid_data(data);
 		plot_sta_data(auto_sta_data);
 		plot_current_loc(data);
+		d3.select('#cbar').attr('src', 'raincb.png')
 	} else if (option == '颱風QPE') {
 		[rawdata, autoraindata] = await Promise.all([d3.json(qpesums_radar_url), d3.json(auto_rain_data_url)]);
 		data = data_proc(rawdata, 0, 0, 0, 208.9, 1.4);
@@ -440,6 +444,7 @@ async function plot_data() {
 		plot_grid_data(data);
 		plot_sta_data(auto_sta_data);
 		plot_current_loc(data);
+		d3.select('#cbar').attr('src', 'raincb.png')
 	} else if (option == '觀測雨量') {
 		[rawdata, autoraindata] = await Promise.all([d3.json(rain_url), d3.json(auto_rain_data_url)]);
 		data = data_proc(rawdata, 0, 1, -1);
@@ -450,6 +455,7 @@ async function plot_data() {
 		plot_grid_data(data);
 		plot_sta_data(auto_sta_data);
 		plot_current_loc(data);
+		d3.select('#cbar').attr('src', 'raincb.png')
 	} else if (option == 'QPESUMS雨量') {
 		[rawdata, autoraindata] = await Promise.all([d3.json(qpesums_rain_url), d3.json(auto_rain_data_url)]);
 		data = data_proc(rawdata, 0, 0);
@@ -460,6 +466,7 @@ async function plot_data() {
 		plot_grid_data(data);
 		plot_sta_data(auto_sta_data);
 		plot_current_loc(data);
+		d3.select('#cbar').attr('src', 'raincb.png')
 	} else if (option == '雷達整合回波') {
 		[rawdata] = await Promise.all([d3.json(qpesums_radar_url)]);
 		data = data_proc(rawdata, -99, 0, 0);
@@ -469,6 +476,7 @@ async function plot_data() {
 		clear();
 		plot_grid_data(data);
 		plot_current_loc(data);
+		d3.select('#cbar').attr('src', 'radarcb.png')
 	}
 		
 	d3.selectAll("select").attr('disabled', null);
