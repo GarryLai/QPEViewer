@@ -14,6 +14,8 @@ const auto_sta_data_url = 'https://cwaopendata.s3.ap-northeast-1.amazonaws.com/O
 const auto_rain_data_url = 'https://cwaopendata.s3.ap-northeast-1.amazonaws.com/Observation/O-A0002-001.json';
 const sta_data_url = 'https://cwaopendata.s3.ap-northeast-1.amazonaws.com/Observation/O-A0003-001.json';
 
+const cwa_icon = 'https://www.cwa.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/'
+
 const help = `
 # # # # 使用說明 # # # #
 雷達定量降水估計技術為利用雷達觀測得到的「回波」估算出各地的「時雨量」。
@@ -358,12 +360,17 @@ function plot_current_loc(data=null, min_dst=0.02) {
 		}
 		
 		font_cmap_1h = (x) => isNaN(x)?"black":x>=100.?"red":x>=80.?"orange":x>=40.?"gold":x>1.?"dimgray":"";
+		
+		day_night = (new Date().getHours() < 18 && new Date().getHours() >= 6) ? 'day' : 'night';
+		icon_now = (x) => x>=40.?"17":x>=20.?"13":x>=10.?"10":x>1.?"09":x>.5?"06":x>.1?"03":"01";
 
 		if (data_now) {
 			d3.select('#now').html('所在地：<font color=' + font_cmap_1h(data_now['data']) + '><b>' + data_now['data'] + ' ' + data_now['unit'] + '</b></font>');	
+			d3.select('#icon').attr('src', cwa_icon + day_night + '/' + icon_now(data_now['data']) + '.svg')		
 		} else {
-			d3.select('#now').html('所在地：<b>沒下雨</b>');	
-		}
+			d3.select('#now').html('所在地：<b>沒下雨</b>');
+			d3.select('#icon').attr('src', cwa_icon + day_night + '/' + icon_now(0) + '.svg')		
+		}	
 	})
 }
 
