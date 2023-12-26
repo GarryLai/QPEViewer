@@ -509,6 +509,17 @@ document.addEventListener('contextmenu', function(e) {
 	return false;
 }, false); 
 
+month = new Date().getMonth()+1;
+if ([3, 4].includes(month)) {
+	product.value = '春季QPE';
+} else if ([5, 6].includes(month)) {
+	product.value = '梅雨QPE';
+} else if ([7, 8, 9].includes(month)) {
+	product.value = '夏季QPE';
+} else if ([10, 11, 12, 1, 2].includes(month)) {
+	product.value = '冬季QPE';
+}
+
 draw_map();
 plot_data();
 
